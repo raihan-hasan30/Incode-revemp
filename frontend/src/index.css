@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+body {
+  background-color: black;
+  color: aliceblue;
+  font-family: "Poppins", monospace;
+  font-optical-sizing: auto;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+::selection {
+  background-color: #f2ba02a1;
+  color: black;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
