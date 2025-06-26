@@ -1,4 +1,5 @@
 import { CheckCircle, Gift, Globe, Heart, Terminal } from "lucide-react";
+import { NavLink } from "react-router";
 
 export default function HomePage() {
   const faqs = [
@@ -63,18 +64,18 @@ export default function HomePage() {
           </div>
 
           <div className="flex  gap-4 justify-center my-8">
-            <a
-              href="/register"
+            <NavLink
+              to="/login"
               className="bg-amber-500 hover:bg-amber-600 text-black font-medium rounded-full px-6 py-2 flex items-center gap-2 shadow-lg transition-all"
             >
               Get Started Free <span className="ml-1">→</span>
-            </a>
-            <a
-              href="/quest-list"
+            </NavLink>
+            <NavLink
+              to="/game-list"
               className="border border-zinc-700 rounded-full px-6 py-2 hover:bg-zinc-800 text-white transition-all"
             >
-              Browse Quests
-            </a>
+              Browse Games
+            </NavLink>
           </div>
         </div>
       </section>
