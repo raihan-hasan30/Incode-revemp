@@ -9,7 +9,6 @@ export default function GameList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("calling");
     dispatch(thunkFetchGames());
   }, []);
 

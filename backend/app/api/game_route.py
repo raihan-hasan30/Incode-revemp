@@ -19,6 +19,20 @@ def getGames():
    except Exception as e:
       return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
+
+@game_routes.route('/<int:id>', methods=["DELETE"])
+def delete_game(id):
+  try:
+    game = Games.query.get(id)
+    if not game:
+      return jsonify({"error": "Game not found"}), 404
+
+    db.session.delete(game)
+    db.session.commit()
+    return jsonify({"message": "Game deleted successfully"}), 200
+  except Exception as e:
+    return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
+
 @game_routes.route("/add-game", methods=['POST'])
 def createGame():
   try:
