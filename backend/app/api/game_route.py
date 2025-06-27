@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, send_from_directory, current_app
 import random
-from werkzeug.utils import secure_filename
 import requests
 import base64
 from app.models.game import Games, db
@@ -8,6 +7,17 @@ from app.models.game import Games, db
 
 game_routes = Blueprint("game", __name__)
 
+
+@game_routes.route("/")
+def getGames():
+   try:
+      allGames = Games.query.all()
+
+      return jsonify([{
+            **quest.to_dict()
+        } for quest in allGames])
+   except Exception as e:
+      return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
 @game_routes.route("/add-game", methods=['POST'])
 def createGame():

@@ -1,30 +1,22 @@
 import { Flame } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
+import { thunkFetchGames } from "../redux/features/game-slice";
 
 export default function GameList() {
-  const games = [
-    {
-      id: "1",
-      name: "Docker",
-      logo: "http://127.0.0.1:5000/api/quest/logo/javascript_d2e3221f-b759-412e-a27b-fbe8db0ce11c_javascript-svgrepo-com.svg",
-      published: true,
-      lessons: 20,
-    },
-    {
-      id: "2",
-      name: "Docker",
-      logo: "http://127.0.0.1:5000/api/quest/logo/javascript_d2e3221f-b759-412e-a27b-fbe8db0ce11c_javascript-svgrepo-com.svg",
-      published: true,
-      lessons: 20,
-    },
-    {
-      id: "3",
-      name: "Docker",
-      logo: "http://127.0.0.1:5000/api/quest/logo/javascript_d2e3221f-b759-412e-a27b-fbe8db0ce11c_javascript-svgrepo-com.svg",
-      published: true,
-      lessons: 20,
-    },
-  ];
+  const games = useSelector((state) => state.games);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("calling");
+    dispatch(thunkFetchGames());
+  }, []);
+
+  if (!games) {
+    return <div>No Game Found</div>;
+  }
+
   return (
     <div className="flex gap-4 justify-center flex-wrap">
       {games.map((game) => {
