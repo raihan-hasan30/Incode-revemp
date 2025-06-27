@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import Navbar from "./components/navbar";
+import AdminAddGamePage from "./pages/admin-add-game-page";
 import GameList from "./pages/game-list-page";
 import GamePage from "./pages/game-page";
 import HomePage from "./pages/home-page";
@@ -16,6 +17,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Route>
+
+      <Route path="/admin/add-game" element={<AdminAddGamePage />} />
     </Routes>
   );
 }

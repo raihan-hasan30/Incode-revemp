@@ -5,6 +5,7 @@ from .models.db import db
 from .models.game import Games 
 from .config import Config
 from flask_cors import CORS
+from .api.game_route import game_routes
 
 app = Flask(__name__, static_folder="../../frontend/dist", static_url_path="/")
 
@@ -17,6 +18,8 @@ Migrate(app, db)
 # Application Security
 CORS(app)
 
+app.register_blueprint(game_routes, url_prefix="/api/game")
+
 
 @app.before_request
 def https_redirect():
@@ -25,8 +28,6 @@ def https_redirect():
             url = request.url.replace("http://", "https://", 1)
             code = 301
             return redirect(url, code=code)
-
-
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
@@ -39,3 +40,5 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file("index.html")
+
+app.run(debug=True)

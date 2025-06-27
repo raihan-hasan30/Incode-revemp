@@ -4,6 +4,10 @@ Install the Packages - pipenv install flask python-dotenv sqlalchemy flask-sqlal
 
 pipenv run flask db init
 
-### Rivision
+### Rivision (Creates Migration File)
 
 pipenv run flask db migrate -m "<COMMIT>"
+
+### Upgrade DB (APply to DB) - RUn on Shell
+
+flask db upgrade
