@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router";
+import AdminNav from "./components/admin-nav";
 import Navbar from "./components/navbar";
 import AdminAddGamePage from "./pages/admin-add-game-page";
+import AdminEditGamePage from "./pages/admin-edit-game-page";
 import GameManagerPage from "./pages/admin-games-manager";
 import GameList from "./pages/game-list-page";
 import GamePage from "./pages/game-page";
@@ -18,9 +20,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Route>
-
-      <Route path="/admin/add-game" element={<AdminAddGamePage />} />
-      <Route path="/admin/manage-game" element={<GameManagerPage />} />
+      <Route element={<AdminNav />}>
+        <Route path="/admin/add-game" element={<AdminAddGamePage />} />
+        <Route path="/admin/manage-game" element={<GameManagerPage />} />
+        <Route path="/admin/edit-game/:gameId" element={<AdminEditGamePage />} />
+      </Route>
     </Routes>
   );
 }

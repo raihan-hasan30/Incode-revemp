@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 
-export default function Navbar() {
+export default function AdminNav() {
   return (
     <>
       <nav className="flex justify-between py-6 px-4 max-w-7xl mx-auto mb-8">
@@ -12,7 +12,10 @@ export default function Navbar() {
             <NavLink to={"/"}>Home</NavLink>
           </li>
           <li>
-            <NavLink to={"/admin/manage-game"}>Admin</NavLink>
+            <NavLink to={"/admin/add-game"}>Add Game</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/admin/manage-game"}>Manage Game</NavLink>
           </li>
           <li>
             <NavLink to={"/game-list"}>Game List</NavLink>

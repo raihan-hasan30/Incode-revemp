@@ -37,7 +37,7 @@ export default function GameManagerPage() {
               <p className="text-white flex-10/12 tracking-tight  transition-colors">{game.name}</p>
 
               <div className="space-x-4 flex">
-                <Link to={`/game/edit/${game.id}`} className="bg-green-500 px-4 py-2 rounded-md">
+                <Link to={`/admin/edit-game/${game.id}`} className="bg-green-500 px-4 py-2 rounded-md">
                   Edit
                 </Link>
                 <button onClick={handleDelete} className="bg-red-500 px-4 py-2 rounded-md">
