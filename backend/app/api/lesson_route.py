@@ -34,6 +34,8 @@ def create_lesson():
    return jsonify(new_lesson.to_dict()), 200
 
 
+
+
 @lesson_routes.route("/<int:game_id>")
 def get_lessons(game_id):
   try:
@@ -43,3 +45,51 @@ def get_lessons(game_id):
       return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
 
+@lesson_routes.route("/<int:id>", methods=["PATCH"])
+def update_lesson(id):
+  try:
+   lessons = Lesson.query.get(id)
+
+   if lessons is None:
+      return jsonify({"errors": ["Cannot find the lesson.", ]}), 404
+
+   data = request.get_json()
+
+   if 'lessonName' in data:
+      lessons.lessonName = data['lessonName']
+
+   if 'cmd' in data:
+      lessons.cmd = data['cmd']
+
+   if 'gameId' in data:
+      lessons.gameId = data['gameId']
+
+   db.session.commit()
+
+   return jsonify(lessons.to_dict())
+
+  except Exception as e:
+      return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
+
+
+@lesson_routes.route("/<int:lesson_id>", methods=["DELETE"])
+def delete_lessson(lesson_id):
+  try:
+   lessons = Lesson.query.get(lesson_id)
+
+   if lessons is None:
+      return jsonify({"errors": ["Cannot find the lesson.", ]}), 404
+
+   db.session.delete(lessons)
+   db.session.commit()
+
+   return jsonify({
+      "message": "Deleted Successfully",
+   }), 200
+   
+
+   return jsonify(lessons.to_dict())
+
+  except Exception as e:
+      print(e)
+      return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
