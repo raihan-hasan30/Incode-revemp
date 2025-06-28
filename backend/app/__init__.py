@@ -7,6 +7,7 @@ from .models.lesson import Lesson
 from .config import Config
 from flask_cors import CORS
 from .api.game_route import game_routes
+from .api.lesson_route import lesson_routes
 
 
 def create_app():
@@ -22,6 +23,7 @@ def create_app():
     CORS(app)
 
     app.register_blueprint(game_routes, url_prefix="/api/game")
+    app.register_blueprint(lesson_routes, url_prefix="/api/lesson")
 
 
     @app.before_request

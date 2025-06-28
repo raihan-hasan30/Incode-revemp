@@ -1,15 +1,35 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import AdminCreateLesson from "../components/admin-create-lesson";
 
 export default function AdminEditGamePage() {
   const logo = useRef(null);
+  const games = useSelector((state) => state.games);
   const [gameName, setGameName] = useState("");
   const [error, setError] = useState({});
   const [logoPreview, setLogoPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
-  const navigate = useNavigate();
+
+  const { gameId } = useParams();
+
+  useEffect(() => {
+    if (gameId) {
+      fetch(`/api/game/${gameId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            return setError({
+              global: data.error,
+            });
+          }
+
+          setGameName(data.name);
+          setLogoPreview(data.logo);
+        });
+    }
+  }, [gameId]);
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -30,8 +50,6 @@ export default function AdminEditGamePage() {
 
   function handleFormSubmit(e) {
     e.preventDefault();
-
-    console.log(gameName);
 
     if (!gameName || gameName == "") {
       setError({
@@ -85,6 +103,10 @@ export default function AdminEditGamePage() {
     }, 5000);
   }
 
+  if (error?.global) {
+    return <div className="text-red-500 p-4 text-center">{error.global}</div>;
+  }
+
   return (
     <div className="p-6">
       <div className="p-8 bg-zinc-900/50 max-w-5xl mx-auto border border-zinc-300/20 rounded-md">
@@ -121,9 +143,9 @@ export default function AdminEditGamePage() {
             <p className="text-xs text-red-600">{error["game_logo"]}</p>
 
             {logoPreview && (
-              <div onClick={removeImage} className="relative">
+              <div onClick={removeImage} className="relative ">
                 <button className="absolute right-1 top-1">X</button>
-                <img src={logoPreview} alt="Logo Preview" className="w-full mt-4 max-h-64 object-contain" />
+                <img src={logoPreview} alt="Logo Preview" className="w-full mt-4 max-h-40 object-contain" />
               </div>
             )}
           </div>

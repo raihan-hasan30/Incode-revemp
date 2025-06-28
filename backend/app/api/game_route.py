@@ -19,6 +19,18 @@ def getGames():
    except Exception as e:
       return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
+@game_routes.route("/<int:id>")
+def get_game_by_id(id):
+   try:
+      singleGame = Games.query.get(id)
+
+      if singleGame is None:
+         return jsonify({"error" : "No Lesson with that id found"})
+
+      return jsonify(singleGame.to_dict())
+   except Exception as e:
+      return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
+   
 
 @game_routes.route('/<int:id>', methods=["DELETE"])
 def delete_game(id):
