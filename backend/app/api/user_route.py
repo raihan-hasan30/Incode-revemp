@@ -23,6 +23,10 @@ def create_account():
   
   hashed_password = generate_password_hash(data["password"])
 
+  check_if_exists = User.query.filter_by(email=data['email']).first()
+  if check_if_exists :
+    return jsonify({"error" : "User already exists"}), 422
+
   new_user_data = User(
     name=data['name'],
     email=data['email'],
@@ -37,14 +41,31 @@ def create_account():
   return jsonify({
       'message': 'success',
       'user': new_user_data.to_dict()
-  }), 201
+  }), 200
   
   pass
 
 
 @user_routes.route("/login", methods=["POST"])
 def login_to_account():
-  pass
+  data = request.get_json()
+
+  if data['email'] is None:
+    return jsonify({"error": "Email is required"})
+  
+  if data['password'] is None:
+    return jsonify({'error': "Password is msising"})
+  
+  user_info = User.query.filter_by(email=data['email']).first()
+  if(not user_info):
+    return jsonify({'error': "User Not found"}), 401
+  
+  if not check_password_hash(user_info.password, data['password']):
+    return jsonify({'error': 'Invalid credentials'}), 401
+  
+  login_user(user_info)
+  return jsonify({'message': 'success', 'user': user_info.to_dict()})
+
 
 
 @user_routes.route("/me")

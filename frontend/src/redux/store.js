@@ -5,10 +5,12 @@ import {
   legacy_createStore as createStore,
 } from "redux";
 import { thunk } from "redux-thunk";
+import authReducer from "./features/auth-slice";
 import gamesReducer from "./features/game-slice";
 
 const rootReducer = combineReducers({
   games: gamesReducer,
+  auth: authReducer
 });
 
 

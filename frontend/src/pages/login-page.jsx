@@ -1,11 +1,56 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router";
+import { loginThunk } from "../redux/features/auth-slice";
 
 export default function LoginPage() {
+  const naviate = useNavigate();
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  function handleLogin() {}
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    if (!email) {
+      return showError("email", "You must provide your Email");
+    }
+
+    if (!password) {
+      return showError("password", "You must provide your password");
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await dispatch(loginThunk({ email, password }));
+      if (response.email) {
+        naviate("/game-list");
+      }
+    } catch (error) {
+      console.log(error.message);
+      showError("global", error.message);
+    }
+
+    setLoading(false);
+  }
+
+  function showError(type, message) {
+    const accepted = ["name", "email", "password", "global"];
+    if (!accepted.includes(type)) {
+      return;
+    }
+
+    setError((prev) => ({
+      ...prev,
+      [type]: message,
+    }));
+
+    setTimeout(() => setError({}), 5000);
+  }
 
   return (
     <div>
@@ -22,6 +67,7 @@ export default function LoginPage() {
               className="px-4 py-2 rounded-md bg-zinc-700"
               autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -35,13 +81,15 @@ export default function LoginPage() {
               className="px-4 py-2 rounded-md bg-zinc-700"
               autoComplete="off"
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </div>
 
           <div className="mt-6">
-            <button className="bg-amber-500 w-full px-4 py-2 rounded-md text-zinc-900" type="submit">
+            <button disabled={loading} className="bg-amber-500 w-full px-4 py-2 rounded-md text-zinc-900" type="submit">
               Login
             </button>
+            {error?.global && <div className="text-xs text-red-500 text-center py-8">{error.global}</div>}
           </div>
         </form>
 

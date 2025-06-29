@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router";
+import { registerThunk } from "../redux/features/auth-slice";
 
 export default function RegisterPage() {
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,23 +26,17 @@ export default function RegisterPage() {
       return showError("password", "You must provide your password");
     }
 
-    fetch("/api/user/create-account", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password, role: "user" }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return showError("global", JSON.stringify(res.json()));
-        }
-        return res.json();
-      })
+    const data = { name, email, password, role: "user" };
+
+    dispatch(registerThunk(data))
       .then((data) => {
-        if (data.message == "success") {
-          naviate("/game-list", { replace: true });
+        console.log(data);
+        if (data?.email) {
+          naviate("/game-list");
         }
+      })
+      .catch((e) => {
+        showError("global", e?.message || "You must provide your Email");
       });
   }
 
@@ -108,7 +105,7 @@ export default function RegisterPage() {
             <button className="bg-amber-500 w-full px-4 py-2 rounded-md text-zinc-900" type="submit">
               Create Account
             </button>
-            {error?.global && <div className="text-xs text-red-500 text-center py-8">{error.name}</div>}
+            {error?.global && <div className="text-xs text-red-500 text-center py-2">{error.global}</div>}
           </div>
         </form>
 

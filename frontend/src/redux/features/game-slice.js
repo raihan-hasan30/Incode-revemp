@@ -1,5 +1,3 @@
-
-
 const SET_GAMES = 'games/setGame';
 const DELETE_GAME = "games/deleteGame"
 
