@@ -5,11 +5,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function handleLogin() {}
+
   return (
     <div>
       <div className="bg-zinc-900 max-w-md w-full mx-auto p-4 rounded-md">
         <h2 className="text-center font-bold text-4xl mt-6">Login</h2>
-        <form className="my-8 px-2" autoComplete="off">
+        <form className="my-8 px-2" autoComplete="off" onSubmit={handleLogin}>
           <div className="my-6 flex flex-col gap-2">
             <label htmlFor="email">Email</label>
             <input

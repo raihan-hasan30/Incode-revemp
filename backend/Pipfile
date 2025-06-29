@@ -12,6 +12,8 @@ alembic = "*"
 flask-migrate = "*"
 flask-cors = "*"
 requests = "*"
+flask-login = "*"
+werkzeug = "*"
 
 [dev-packages]
 

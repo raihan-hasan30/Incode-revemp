@@ -9,6 +9,8 @@ from .config import Config
 from flask_cors import CORS
 from .api.game_route import game_routes
 from .api.lesson_route import lesson_routes
+from .api.user_route import user_routes
+from flask_login import LoginManager
 
 
 def create_app():
@@ -21,8 +23,17 @@ def create_app():
     Migrate(app, db)
 
     # Application Security
-    CORS(app)
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
+    login_manager = LoginManager()
+    login_manager.login_view = "user.login"
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
+    app.register_blueprint(user_routes, url_prefix="/api/user")
     app.register_blueprint(game_routes, url_prefix="/api/game")
     app.register_blueprint(lesson_routes, url_prefix="/api/lesson")
 
