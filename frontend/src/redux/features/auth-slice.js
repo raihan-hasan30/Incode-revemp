@@ -84,3 +84,31 @@ export const registerThunk = (data) => (dispatch) => {
       return false
     });
 }
+
+export const logoutThunk = () => dispatch => {
+  fetch("/api/user/logout").then(res => {
+    if(res.ok && res.status == 200){
+      dispatch(removeUser())
+      return true
+    }
+  }).catch(error => {
+    return error
+  })
+}
+
+export const revalidate = () => dispatch => {
+  fetch("/api/user/me", { credentials: "include" }).then(res => {
+    if (!res.ok) {
+      throw new Error("Something Went wrong");
+    }
+    return res.json()
+  }).then(data =>{
+    if(data?.user){
+      dispatch(addUser(data?.user))
+    }else{
+      throw new Error("Something Went wrong");
+    }
+  }).catch(error => {
+    throw error
+  })
+}

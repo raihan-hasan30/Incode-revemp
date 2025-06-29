@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router";
 import AdminNav from "./components/admin-nav";
 import Navbar from "./components/navbar";
@@ -9,8 +11,16 @@ import GamePage from "./pages/game-page";
 import HomePage from "./pages/home-page";
 import LoginPage from "./pages/login-page";
 import RegisterPage from "./pages/register-page";
+import { revalidate } from "./redux/features/auth-slice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  // Authenticate
+  useEffect(() => {
+    dispatch(revalidate());
+  }, []);
+
   return (
     <Routes>
       <Route element={<Navbar />}>

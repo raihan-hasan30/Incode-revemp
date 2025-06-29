@@ -1,16 +1,24 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router";
 import { loginThunk } from "../redux/features/auth-slice";
 
 export default function LoginPage() {
   const naviate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(user);
+    if (user?.email) {
+      naviate("/game-list");
+    }
+  }, [user]);
 
   async function handleLogin(e) {
     e.preventDefault();

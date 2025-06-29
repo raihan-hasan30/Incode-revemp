@@ -20,6 +20,11 @@ def create_app():
     app.config.from_object(Config)
     db.init_app(app)
 
+    # Helps to cookie
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['SESSION_COOKIE_SECURE'] = True 
+
     Migrate(app, db)
 
     # Application Security

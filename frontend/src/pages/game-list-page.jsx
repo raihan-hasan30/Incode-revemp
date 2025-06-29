@@ -12,8 +12,8 @@ export default function GameList() {
     dispatch(thunkFetchGames());
   }, []);
 
-  if (!games) {
-    return <div>No Game Found</div>;
+  if (!games.length) {
+    return <div className="text-xs text-red-500 text-center py-8">No Game Found</div>;
   }
 
   return (

@@ -4,7 +4,7 @@ import requests
 import base64
 from app.models.user import User, db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required, current_user
 
 user_routes = Blueprint("user", __name__)
 
@@ -67,7 +67,11 @@ def login_to_account():
   return jsonify({'message': 'success', 'user': user_info.to_dict()})
 
 
+@user_routes.route("/logout")
+def logout_from_account():
+    logout_user()
+    return jsonify({"message": "Logged out successfully"}), 200
 
 @user_routes.route("/me")
 def get_me():
-  pass
+  return jsonify({"user": current_user.to_dict()}), 200
