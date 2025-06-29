@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from .models.db import db
 from .models.game import Games
 from .models.lesson import Lesson
+from .models.user import User
 from .config import Config
 from flask_cors import CORS
 from .api.game_route import game_routes

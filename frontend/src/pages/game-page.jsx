@@ -93,6 +93,7 @@ export default function GamePage() {
           {message}
         </div>
       )}
+
       <div className="max-w-6xl p-4 mx-auto flex gap-4">
         {/* Lesson List Area */}
         <div className="w-3/12 p-4 bg-zinc-800/40 rounded-md border border-white/20">
