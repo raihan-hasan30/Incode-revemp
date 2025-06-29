@@ -6,6 +6,7 @@ import Navbar from "./components/navbar";
 import AdminAddGamePage from "./pages/admin-add-game-page";
 import AdminEditGamePage from "./pages/admin-edit-game-page";
 import GameManagerPage from "./pages/admin-games-manager";
+import AdminRegisterPage from "./pages/admin-register-page";
 import GameList from "./pages/game-list-page";
 import GamePage from "./pages/game-page";
 import HomePage from "./pages/home-page";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
       <Route element={<AdminNav />}>
+        <Route path="/admin/register" element={<AdminRegisterPage />} />
         <Route path="/admin/add-game" element={<AdminAddGamePage />} />
         <Route path="/admin/manage-game" element={<GameManagerPage />} />
         <Route path="/admin/edit-game/:gameId" element={<AdminEditGamePage />} />

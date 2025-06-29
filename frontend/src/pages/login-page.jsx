@@ -72,7 +72,7 @@ export default function LoginPage() {
               id="email"
               placeholder="Write your valid email"
               value={email}
-              className="px-4 py-2 rounded-md bg-zinc-700"
+              className="px-4 py-2 rounded-md bg-zinc-700 disabled:bg-amber-900"
               autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
@@ -86,7 +86,7 @@ export default function LoginPage() {
               id="password"
               placeholder="Write your valid Password"
               value={password}
-              className="px-4 py-2 rounded-md bg-zinc-700"
+              className="px-4 py-2 rounded-md bg-zinc-700 disabled:bg-amber-900"
               autoComplete="off"
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
@@ -94,7 +94,11 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-6">
-            <button disabled={loading} className="bg-amber-500 w-full px-4 py-2 rounded-md text-zinc-900" type="submit">
+            <button
+              disabled={loading}
+              className="disabled:bg-amber-900 bg-amber-500 w-full px-4 py-2 rounded-md text-zinc-900"
+              type="submit"
+            >
               Login
             </button>
             {error?.global && <div className="text-xs text-red-500 text-center py-8">{error.global}</div>}

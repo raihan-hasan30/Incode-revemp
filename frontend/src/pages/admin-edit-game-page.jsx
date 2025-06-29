@@ -73,8 +73,8 @@ export default function AdminEditGamePage() {
     formData.set("logo", logo.current);
 
     setIsLoading(true);
-    fetch("/api/game/add-game", {
-      method: "POST",
+    fetch("/api/game/" + gameId, {
+      method: "PATCH",
       body: formData,
     })
       .then((res) => res.json())
@@ -82,9 +82,6 @@ export default function AdminEditGamePage() {
         setIsLoading(false);
         setResponse("Uploaded Successfully");
         clearError();
-        setGameName("");
-        setLogoPreview(null);
-        logo.current.value = "";
       });
   }
 

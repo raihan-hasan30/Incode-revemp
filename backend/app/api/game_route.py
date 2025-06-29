@@ -59,7 +59,7 @@ def createGame():
     logo_bytes = logo_file.read()
     logo_b64 = base64.b64encode(logo_bytes).decode('utf-8')
 
-    imgbb_url = f"https://api.imgbb.com/1/upload?expiration=600&key={api_key}"
+    imgbb_url = f"https://api.imgbb.com/1/upload?expiration=null&key={api_key}"
     payload = {
       "image": logo_b64
     }
@@ -82,4 +82,43 @@ def createGame():
   except Exception as e:
         return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
-      
+
+@game_routes.route('/<int:id>', methods=["PATCH"])
+def update_game(id):
+  try:
+    game = Games.query.get(id)
+    if not game:
+      return jsonify({"error": "Game not found"}), 404
+
+    data = request.form
+    logo_file = request.files.get('logo')
+    
+    game_name = data.get('game_name')
+    if game_name:
+      game.name = game_name
+    
+    if logo_file:
+      api_key = "3e7a21b1b8dcf53252187e2c4113e557"
+      logo_bytes = logo_file.read()
+      logo_b64 = base64.b64encode(logo_bytes).decode('utf-8')
+
+      imgbb_url = f"https://api.imgbb.com/1/upload?expiration=null&key={api_key}"
+      payload = {
+        "image": logo_b64
+      }
+      response = requests.post(imgbb_url, data=payload)
+      if response.status_code == 200:
+        logo_url = response.json()['data']['url']
+        game.logo = logo_url
+      else:
+        return jsonify({"error": "Failed to upload new logo"}), 500
+
+    db.session.commit()
+    return jsonify({
+      "message": "Game updated successfully",
+      **game.to_dict()
+    }), 200
+    
+  except Exception as e:
+    db.session.rollback()
+    return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500

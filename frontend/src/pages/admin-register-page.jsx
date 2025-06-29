@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router";
 import { registerThunk } from "../redux/features/auth-slice";
 
-export default function RegisterPage() {
+export default function AdminRegisterPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
 
@@ -36,7 +36,7 @@ export default function RegisterPage() {
       return showError("password", "You must provide your password");
     }
 
-    const data = { name, email, password, role: "user" };
+    const data = { name, email, password, role: "admin" };
     setLoading(true);
 
     dispatch(registerThunk(data))
@@ -72,6 +72,7 @@ export default function RegisterPage() {
     <div>
       <div className="bg-zinc-900 max-w-md w-full mx-auto p-4 rounded-md">
         <h2 className="text-center font-bold text-4xl mt-6">Register</h2>
+        <p className="text-xs text-center text-zinc-400">Carefully, this is Admin Register Page</p>
         <form className="my-8 px-2" autoComplete="off" onSubmit={handleRegister}>
           <div className="my-6 flex flex-col gap-2">
             <label htmlFor="email">Name</label>

@@ -73,5 +73,9 @@ def logout_from_account():
     return jsonify({"message": "Logged out successfully"}), 200
 
 @user_routes.route("/me")
+@login_required
 def get_me():
-  return jsonify({"user": current_user.to_dict()}), 200
+  if current_user.is_authenticated:
+    return jsonify({"user": current_user.to_dict()}), 200
+  else:
+    return jsonify({"error": "Not authenticated"}), 401

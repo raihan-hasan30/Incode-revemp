@@ -1,7 +1,6 @@
-from flask import Blueprint, request, jsonify, send_from_directory, current_app
-import random
-import requests
-import base64
+from flask import Blueprint, request, jsonify
+
+from flask_login import current_user
 from app.models.lesson import Lesson, db
 
 
@@ -9,6 +8,9 @@ lesson_routes = Blueprint("lesson", __name__)
 
 @lesson_routes.route("/create", methods=['POST'])
 def create_lesson():
+   if not current_user.is_authenticated:
+    return jsonify({"error": "Authentication Required"}), 401
+   
    data = request.get_json()
 
    if 'cmd' not in data:
@@ -35,8 +37,12 @@ def create_lesson():
 
 
 @lesson_routes.route("/<int:game_id>")
-def get_lessons(game_id):
+def get_lessons(game_id): 
   try:
+    
+    if not current_user.is_authenticated:
+      return jsonify({"error": "Authentication Required"}), 401
+
     lessons = Lesson.query.filter_by(gameId = game_id).all()
     return jsonify([lesson.to_dict() for lesson in lessons])
   except Exception as e:
@@ -46,6 +52,10 @@ def get_lessons(game_id):
 @lesson_routes.route("/<int:id>", methods=["PATCH"])
 def update_lesson(id):
   try:
+
+   if not current_user.is_authenticated:
+      return jsonify({"error": "Authentication Required"}), 401
+   
    lessons = Lesson.query.get(id)
 
    if lessons is None:
@@ -73,6 +83,9 @@ def update_lesson(id):
 @lesson_routes.route("/<int:lesson_id>", methods=["DELETE"])
 def delete_lessson(lesson_id):
   try:
+   if not current_user.is_authenticated:
+      return jsonify({"error": "Authentication Required"}), 401
+   
    lessons = Lesson.query.get(lesson_id)
 
    if lessons is None:

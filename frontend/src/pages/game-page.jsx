@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-
-const cmd = "console.log(";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
 export default function GamePage() {
   const { gameId } = useParams();
@@ -11,6 +10,16 @@ export default function GamePage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const user = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(user);
+    if (!user?.email) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (lessons.length > 0) return;

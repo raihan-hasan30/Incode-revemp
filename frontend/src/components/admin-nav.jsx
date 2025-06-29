@@ -1,6 +1,25 @@
-import { NavLink, Outlet } from "react-router";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Outlet, useNavigate } from "react-router";
 
 export default function AdminNav() {
+  const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isAdmin = user?.role == "admin";
+  const isLoggedIn = !!user?.email;
+
+  function handleLogout() {
+    if (!isLoggedIn) return;
+    dispatch(logoutThunk());
+  }
+
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate("/?msg=you are not allowed");
+    }
+  }, [isAdmin]);
   return (
     <>
       <nav className="flex justify-between py-6 px-4 max-w-7xl mx-auto mb-8">
@@ -20,9 +39,15 @@ export default function AdminNav() {
           <li>
             <NavLink to={"/game-list"}>Game List</NavLink>
           </li>
-          <li>
-            <NavLink to={"/login"}>Login</NavLink>
-          </li>
+          {!isLoggedIn ? (
+            <li>
+              <NavLink to={"/login"}>Login</NavLink>
+            </li>
+          ) : (
+            <li className="cursor-pointer" onClick={handleLogout}>
+              Logout
+            </li>
+          )}
         </ul>
       </nav>
       <Outlet />

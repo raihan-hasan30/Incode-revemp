@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { thunkDeleteGame, thunkFetchGames } from "../redux/features/game-slice";
 
 export default function GameManagerPage() {
@@ -12,11 +12,26 @@ export default function GameManagerPage() {
   }, []);
 
   if (!games.length) {
-    return <div className="bg-zinc-600 p-10">No Game Found</div>;
+    return (
+      <>
+        <div className="text-right max-w-5xl mx-auto py-8">
+          <NavLink className="bg-amber-500 px-3 py-2 text-black rounded-md text-right" to={"/admin/add-game"}>
+            Add Game
+          </NavLink>
+        </div>
+        <div className="bg-zinc-800 p-10 max-w-5xl mx-auto">No Game Found</div>
+      </>
+    );
   }
 
   return (
     <>
+      <div className="text-right max-w-5xl mx-auto py-8">
+        <NavLink className="bg-amber-500 px-3 py-2 text-black rounded-md text-right" to={"/admin/add-game"}>
+          Add Game
+        </NavLink>
+      </div>
+
       <div className="max-w-7xl mx-auto p-4">
         <h1 className="font-bold text-center text-2xl my-8">Manage Games</h1>
 
