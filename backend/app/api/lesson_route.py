@@ -34,8 +34,6 @@ def create_lesson():
    return jsonify(new_lesson.to_dict()), 200
 
 
-
-
 @lesson_routes.route("/<int:game_id>")
 def get_lessons(game_id):
   try:
