@@ -31,8 +31,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Route>
+      <Route path="/admin/register" element={<AdminRegisterPage />} />
       <Route element={<AdminNav />}>
-        <Route path="/admin/register" element={<AdminRegisterPage />} />
         <Route path="/admin/add-game" element={<AdminAddGamePage />} />
         <Route path="/admin/manage-game" element={<GameManagerPage />} />
         <Route path="/admin/edit-game/:gameId" element={<AdminEditGamePage />} />
