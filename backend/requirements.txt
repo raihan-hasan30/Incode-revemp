@@ -1,5 +1,5 @@
 -i https://pypi.org/simple
-alembic==1.16.2; python_version >= '3.9'
+alembic==1.16.2; psycopg2_version >= '3.9'
 blinker==1.9.0; python_version >= '3.9'
 certifi==2025.6.15; python_version >= '3.7'
 charset-normalizer==3.4.2; python_version >= '3.7'
@@ -20,3 +20,4 @@ sqlalchemy==2.0.41; python_version >= '3.7'
 typing-extensions==4.14.0; python_version >= '3.9'
 urllib3==2.5.0; python_version >= '3.9'
 werkzeug==3.1.3; python_version >= '3.9'
+psycopg2==2.9.10; python_version >= '3.8'
