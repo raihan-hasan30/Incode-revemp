@@ -1,4 +1,5 @@
 const SET_GAMES = 'games/setGame';
+const ADD_GAMES = 'games/addGame';
 const DELETE_GAME = "games/deleteGame"
 
 const setGames = (games) => ({
@@ -10,6 +11,11 @@ const deleteGame = (gameId) => ({
   type: DELETE_GAME,
   payload : gameId
 })
+
+export const addGame = (game) => ({
+  type: ADD_GAMES,
+  payload: game
+});
 
 export const thunkFetchGames = ()  => async (dispatch) => {
   try {
@@ -57,14 +63,15 @@ function gamesReducer(state = initialState, action) {
 
   switch (action.type) {
     case SET_GAMES:
-      // API request will give array of games and we don't need to immutablly change, we can update the whole games
       return action.payload;
 
     case DELETE_GAME:
-
       const newState = state.filter(i => i.id != action.payload)
       console.log("Game Deleted", newState, action)
       return newState;
+
+    case ADD_GAMES:
+      return [...state, action.payload];
    
     default:
       return state;

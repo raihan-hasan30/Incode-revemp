@@ -119,7 +119,6 @@ export default function AdminEditGamePage() {
               onChange={(e) => setGameName(e.target.value)}
               name="game_name"
               disabled={isLoading}
-              required
             />
             <p className="text-xs text-red-600">{error["game_name"]}</p>
           </div>
@@ -135,7 +134,6 @@ export default function AdminEditGamePage() {
               onChange={handleLogoChange}
               name="game_logo"
               disabled={isLoading}
-              required
             />
             <p className="text-xs text-red-600">{error["game_logo"]}</p>
 

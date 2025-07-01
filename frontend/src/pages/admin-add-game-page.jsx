@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { addGame } from "../redux/features/game-slice";
 
 export default function AdminAddGamePage() {
   const logo = useRef(null);
@@ -9,6 +11,7 @@ export default function AdminAddGamePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -58,14 +61,32 @@ export default function AdminAddGamePage() {
       method: "POST",
       body: formData,
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          const error = await res.json();
+          throw error;
+        }
+
+        return await res.json();
+      })
       .then((data) => {
+        if (!data) {
+          return;
+        }
+        dispatch(addGame(data));
         setIsLoading(false);
         setResponse("Uploaded Successfully");
         clearError();
         setGameName("");
         setLogoPreview(null);
         logo.current.value = "";
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setError({
+          global: error.error,
+        });
+        clearError();
       });
   }
 
@@ -75,12 +96,12 @@ export default function AdminAddGamePage() {
     }, 5000);
   }
 
-  function clearError() {
-    setTimeout(() => {
-      setResponse(null);
-      navigate("/admin/manage-game");
-    }, 5000);
-  }
+  // function clearError() {
+  //   setTimeout(() => {
+  //     setResponse(null);
+  //     navigate("/admin/manage-game");
+  //   }, 5000);
+  // }
 
   return (
     <div className="p-6">

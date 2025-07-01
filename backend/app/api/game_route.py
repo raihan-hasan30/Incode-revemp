@@ -1,8 +1,10 @@
-from flask import Blueprint, request, jsonify, send_from_directory, current_app
+from flask import Blueprint, request, jsonify
 import random
 import requests
 import base64
 from app.models.game import Games, db
+from flask_login import login_required
+
 
 
 game_routes = Blueprint("game", __name__)
@@ -46,14 +48,18 @@ def delete_game(id):
     return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
 @game_routes.route("/add-game", methods=['POST'])
+@login_required
 def createGame():
   try:
     data = request.form
     game_name = data.get('game_name')
     logo_file = request.files.get('logo')
-  
-
-    # Upload logo to imgbb
+    
+    if logo_file:
+      allowed_extensions = {'jpg', 'jpeg', 'png'}
+      file_extension = logo_file.filename.lower().split('.')[-1] if logo_file.filename else ''
+      if file_extension not in allowed_extensions:
+        return jsonify({"error": "Only JPG and PNG images are allowed"}), 400
 
     api_key = "3e7a21b1b8dcf53252187e2c4113e557"
     logo_bytes = logo_file.read()
@@ -82,7 +88,7 @@ def createGame():
   except Exception as e:
         return jsonify({"errors": ["Server error. Please try again.", str(e)]}), 500
 
-
+@login_required
 @game_routes.route('/<int:id>', methods=["PATCH"])
 def update_game(id):
   try:
@@ -98,6 +104,11 @@ def update_game(id):
       game.name = game_name
     
     if logo_file:
+      allowed_extensions = {'jpg', 'jpeg', 'png'}
+      file_extension = logo_file.filename.lower().split('.')[-1] if logo_file.filename else ''
+      if file_extension not in allowed_extensions:
+        return jsonify({"error": "Only JPG and PNG images are allowed"}), 400
+        
       api_key = "3e7a21b1b8dcf53252187e2c4113e557"
       logo_bytes = logo_file.read()
       logo_b64 = base64.b64encode(logo_bytes).decode('utf-8')
