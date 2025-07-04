@@ -75,11 +75,15 @@ export default function AdminAddGamePage() {
         }
         dispatch(addGame(data));
         setIsLoading(false);
-        setResponse("Uploaded Successfully");
+        setResponse("Uploaded Successfully, Navigating to Add Lesson Page...");
         clearError();
         setGameName("");
         setLogoPreview(null);
         logo.current.value = "";
+
+        setTimeout(() => {
+          navigate("/admin/edit-game/" + data.id);
+        }, 3000);
       })
       .catch((error) => {
         setIsLoading(false);

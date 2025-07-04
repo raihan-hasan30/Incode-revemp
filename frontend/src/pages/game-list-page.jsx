@@ -33,7 +33,7 @@ export default function GameList() {
             <h2 className="text-white text-2xl font-extrabold mb-2 text-center tracking-tight  transition-colors">
               {game.name}
             </h2>
-            <span className="text-xs text-zinc-400 mt-1">Lessons : {game.lessons}</span>
+            {/* <span className="text-xs text-zinc-400 mt-1">Lessons : {game.lessons}</span> */}
             <Link
               to={`/game/${game.id}`}
               className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 hover:bg-amber-500 text-white font-bold py-2 rounded-lg  text-sm shadow focus:outline-none focus:ring-2 focus:ring-amber-600 hover:shadow-lg hover:shadow-amber-600/50 transition-all duration-300 mt-8 px-8"

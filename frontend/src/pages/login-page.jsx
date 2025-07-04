@@ -60,6 +60,18 @@ export default function LoginPage() {
     setTimeout(() => setError({}), 5000);
   }
 
+  function autoLogin(type) {
+    if (type === "user") {
+      setEmail("user@incode.com");
+      setPassword("user@incode.com");
+    }
+
+    if (type == "admin") {
+      setEmail("admin@incode.com");
+      setPassword("admin@incode.com");
+    }
+  }
+
   return (
     <div>
       <div className="bg-zinc-900 max-w-md w-full mx-auto p-4 rounded-md">
@@ -104,6 +116,25 @@ export default function LoginPage() {
             {error?.global && <div className="text-xs text-red-500 text-center py-8">{error.global}</div>}
           </div>
         </form>
+
+        <div className="flex gap-4 mb-4">
+          <button
+            disabled={loading}
+            onClick={() => autoLogin("user")}
+            className="disabled:bg-amber-900 bg-zinc-700 w-full px-4 py-2 rounded-md text-zinc-300"
+            type="submit"
+          >
+            Login as User
+          </button>
+          <button
+            disabled={loading}
+            onClick={() => autoLogin("admin")}
+            className="disabled:bg-amber-900 bg-zinc-700 w-full px-4 py-2 rounded-md text-zinc-300"
+            type="submit"
+          >
+            Login as Admin
+          </button>
+        </div>
 
         <p className="text-sm text-center text-zinc-500"> Or</p>
 
